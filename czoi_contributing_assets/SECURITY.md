@@ -5,7 +5,7 @@ We take the security of **CZOI Toolkit** seriously. If you discover a vulnerabil
 ## Reporting a Vulnerability
 
 - **Private Advisory (preferred):** Submit a report using GitHub’s private Security Advisory workflow for this repository:
-  - https://github.com/harriswatau/czoi_toolkit/security/advisories/new
+  - https://github.com/hongxueharriswang/czoi_toolkit/security/advisories/new
 - **Email (fallback):** If the advisory flow is unavailable, contact the maintainer privately at: **security@czoi.dev** (placeholder). Do not include exploit details in public channels.
 
 Please include:

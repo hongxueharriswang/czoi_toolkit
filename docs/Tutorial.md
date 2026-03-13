@@ -884,7 +884,7 @@ We encourage you to explore the CZOI toolkit further, adapt it to your own organ
 
 [4] H. Wang, "Constrained Zoned‑Object Architecture (CZOA): A Unified Formalism Integrating Hierarchical Intelligence and Zoned Organizational Intelligent Information Systems," 2026.
 
-[5] CZOI Toolkit Documentation and Repository: [https://github.com/harriswatau/czoi_toolkit](https://github.com/harriswatau/czoi_toolkit)
+[5] CZOI Toolkit Documentation and Repository: [https://github.com/hongxueharriswang/czoi_toolkit](https://github.com/harriswatau/czoi_toolkit)
 
 ---
 

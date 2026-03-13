@@ -5,7 +5,7 @@
 **Version:** 0.1.0  
 **Author:** Harris Wang  
 **License:** MIT  
-**Repository:** [https://github.com/harriswatau/czoi_toolkit](https://github.com/harriswatau/czoi_toolkit)
+**Repository:** [https://github.com/hongxueharriswang/czoi_toolkit](https://github.com/harriswatau/czoi_toolkit)
 
 ---
 
@@ -727,13 +727,13 @@ For detailed documentation of all classes and methods, please refer to the [API 
 
 ## 16. Contributing
 
-We welcome contributions! Please see the [CONTRIBUTING.md](https://github.com/harriswatau/czoi_toolkit/blob/main/CONTRIBUTING.md) file for guidelines. The project uses `pytest` for testing, `black` for code formatting, and `mypy` for type checking.
+We welcome contributions! Please see the [CONTRIBUTING.md](https://github.com/hongxueharriswang/czoi_toolkit/blob/main/CONTRIBUTING.md) file for guidelines. The project uses `pytest` for testing, `black` for code formatting, and `mypy` for type checking.
 
 ---
 
 ## 17. License
 
-CZOI is released under the MIT License. See the [LICENSE](https://github.com/harriswatau/czoi_toolkit/blob/main/LICENSE) file for details.
+CZOI is released under the MIT License. See the [LICENSE](https://github.com/hongxueharriswang/czoi_toolkit/blob/main/LICENSE) file for details.
 
 ---
 

@@ -96,7 +96,7 @@ CZOI is organized into modules (as described in the technical specification):
     ```bash
     git clone https://github.com/<your-username>/czoi_toolkit.git
     cd czoi_toolkit
-    git remote add upstream https://github.com/harriswatau/czoi_toolkit.git
+    git remote add upstream https://github.com/hongxueharriswang/czoi_toolkit.git
     ```
 
 2.  **Create a virtual environment**
