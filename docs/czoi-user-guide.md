@@ -1,741 +1,729 @@
 # CZOI Toolkit User Guide
 
-## Building Intelligent Organizational Systems with CZOI in Python
-
-**Version:** 0.1.0  
-**Author:** Harris Wang  
-**License:** MIT  
-**Repository:** [https://github.com/hongxueharriswang/czoi_toolkit](https://github.com/harriswatau/czoi_toolkit)
+**Version 1.0.0**  
+*Build secure, adaptive, intelligent organizational systems with recursive zones, properties, roles, neural components, and daemons.*
 
 ---
 
 ## Table of Contents
 
-1. [Introduction](#1-introduction)  
-2. [Installation](#2-installation)  
-3. [Core Concepts](#3-core-concepts)  
-    - 3.1 [Zones](#31-zones)  
-    - 3.2 [Roles](#32-roles)  
-    - 3.3 [Users](#33-users)  
-    - 3.4 [Applications and Operations](#34-applications-and-operations)  
-    - 3.5 [Gamma Mappings](#35-gamma-mappings)  
-4. [Building a System](#4-building-a-system)  
-    - 4.1 [Creating a Zone Hierarchy](#41-creating-a-zone-hierarchy)  
-    - 4.2 [Defining Roles and Permissions](#42-defining-roles-and-permissions)  
-    - 4.3 [Adding Users](#43-adding-users)  
-    - 4.4 [Setting Up Gamma Mappings](#44-setting-up-gamma-mappings)  
-5. [Constraints](#5-constraints)  
-    - 5.1 [Identity Constraints](#51-identity-constraints)  
-    - 5.2 [Trigger Constraints](#52-trigger-constraints)  
-    - 5.3 [Goal Constraints](#53-goal-constraints)  
-    - 5.4 [Access Constraints](#54-access-constraints)  
-6. [Permission Engine](#6-permission-engine)  
-    - 6.1 [Checking Permissions](#61-checking-permissions)  
-    - 6.2 [Effective Permission Calculation](#62-effective-permission-calculation)  
-7. [Neural Components](#7-neural-components)  
-    - 7.1 [Built‑in Neural Components](#71-built-in-neural-components)  
-    - 7.2 [Training a Neural Component](#72-training-a-neural-component)  
-    - 7.3 [Using a Neural Component in a Daemon](#73-using-a-neural-component-in-a-daemon)  
-8. [Embeddings](#8-embeddings)  
-    - 8.1 [Creating Embeddings](#81-creating-embeddings)  
-    - 8.2 [Similarity Search](#82-similarity-search)  
-9. [Daemons](#9-daemons)  
-    - 9.1 [Built‑in Daemons](#91-built-in-daemons)  
-    - 9.2 [Writing a Custom Daemon](#92-writing-a-custom-daemon)  
-10. [Simulation](#10-simulation)  
-    - 10.1 [Running a Simulation](#101-running-a-simulation)  
-    - 10.2 [Analyzing Simulation Results](#102-analyzing-simulation-results)  
-11. [Web Framework Integrations](#11-web-framework-integrations)  
-    - 11.1 [Django](#111-django)  
-    - 11.2 [Flask](#112-flask)  
-    - 11.3 [FastAPI](#113-fastapi)  
-12. [Command‑Line Interface](#12-command-line-interface)  
-13. [Persistence](#13-persistence)  
-14. [Examples](#14-examples)  
-    - 14.1 [Healthcare System](#141-healthcare-system)  
-    - 14.2 [Financial Trading Desk](#142-financial-trading-desk)  
-    - 14.3 [Traffic Management](#143-traffic-management)  
-    - 14.4 [University Management](#144-university-management)  
-    - 14.5 [Distribution Center](#145-distribution-center)  
-15. [API Reference](#15-api-reference)  
-16. [Contributing](#16-contributing)  
-17. [License](#17-license)  
+1. [Introduction](#1-introduction)
+2. [Installation](#2-installation)
+3. [Quick Start](#3-quick-start)
+4. [Core Concepts](#4-core-concepts)
+5. [Working with Zones](#5-working-with-zones)
+6. [Managing Properties](#6-managing-properties)
+7. [Roles, Users, and Permissions](#7-roles-users-and-permissions)
+8. [Defining Operations](#8-defining-operations)
+9. [Using Constraints](#9-using-constraints)
+10. [Adding Neural Components](#10-adding-neural-components)
+11. [Writing Daemons](#11-writing-daemons)
+12. [Embedding Service](#12-embedding-service)
+13. [Putting It All Together](#13-putting-it-all-together)
+14. [Testing and Debugging](#14-testing-and-debugging)
+15. [Deployment](#15-deployment)
+16. [Best Practices](#16-best-practices)
+17. [Troubleshooting](#17-troubleshooting)
+18. [API Quick Reference](#18-api-quick-reference)
 
 ---
 
 ## 1. Introduction
 
-The **CZOI Toolkit** is a Python implementation of the **Constrained Zone‑Object Architecture (CZOA)** – a unified formalism for building intelligent, secure, and adaptive organizational systems. CZOA combines the theoretical depth of Constrained Object Hierarchies (COH) with the engineering pragmatism of the Zoned Role‑Based (ZRB) framework. The result is a single coherent model that captures:
+The **CZOI Toolkit** is a Python library that implements the Constrained Zoned‑Object Architecture (11‑tuple) for building systems that are:
 
-- **Organizational structure** through hierarchical zones.
-- **Security policies** via roles, permissions, and constraints.
-- **Intelligence** through neural components that learn from data.
-- **Continuous monitoring** with daemons that enforce policies in real time.
-- **Simulation** capabilities to validate system behaviour before deployment.
+- **Secure** – fine‑grained, property‑aware access control.
+- **Intelligent** – built‑in neural components for prediction and anomaly detection.
+- **Organizational** – zones mirror real‑world hierarchies (departments, hospitals, warehouses).
+- **Resilient** – daemons continuously monitor and enforce constraints.
 
-CZOI provides a set of Python classes and utilities that let you translate a CZOA model into an executable system. It is designed to be modular, extensible, and scalable – from small prototypes to large enterprise deployments.
-
-This guide will walk you through all the features of the toolkit, with practical examples drawn from real‑world domains such as healthcare, finance, smart cities, education, and supply chain.
+This guide walks you through every feature with practical examples. By the end, you will be able to model and implement your own secure intelligent systems.
 
 ---
 
 ## 2. Installation
 
-Install the core package via pip:
+### Prerequisites
+
+- Python 3.9 or higher
+- `pip` package manager
+
+### Install from PyPI
 
 ```bash
-pip install czoi
+pip install czoi-toolkit
 ```
 
-For optional features, use extras:
+### Optional neural dependencies (PyTorch / TensorFlow)
 
 ```bash
-pip install czoi[neural]      # PyTorch, transformers, scikit-learn
-pip install czoi[api]          # FastAPI, uvicorn
-pip install czoi[django]       # Django support
-pip install czoi[flask]        # Flask support
-pip install czoi[all]          # All extras
+pip install czoi-toolkit[neural]
+```
+
+### Verify installation
+
+```python
+import czoi
+print(czoi.__version__)   # 1.0.0
 ```
 
 ---
 
-## 3. Core Concepts
+## 3. Quick Start
 
-### 3.1 Zones
-
-A **Zone** represents an organizational unit. Zones form a tree: each zone (except the root) has exactly one parent and may have many children. Zones contain roles, applications, and users.
-
-```python
-from czoi.core import Zone
-
-root = Zone("GlobalBank")
-trading = Zone("Trading", parent=root)
-equities = Zone("Equities", parent=trading)
-```
-
-### 3.2 Roles
-
-A **Role** defines a job function within a specific zone. Each role has a set of base permissions (operations it can perform) and may have senior/junior relationships with other roles in the same zone (intra‑zone hierarchy).
-
-```python
-from czoi.core import Role
-
-trader = Role("Trader", zone=equities)
-head_trader = Role("HeadTrader", zone=equities)
-head_trader.add_senior(trader)   # HeadTrader inherits permissions from Trader
-```
-
-### 3.3 Users
-
-A **User** represents an individual who can be assigned to roles in different zones. A user may hold multiple roles, each with an optional weight (e.g., primary vs. secondary role).
-
-```python
-from czoi.core import User
-
-alice = User("alice", "alice@bank.com")
-alice.assign_role(equities, trader, weight=1.0)
-```
-
-### 3.4 Applications and Operations
-
-An **Application** is a software system that exposes **Operations** – the executable actions that users can perform. Operations are the atomic units of work.
-
-```python
-from czoi.core import Application
-
-oms = Application("OrderManagementSystem", owning_zone=equities)
-enter_order = oms.add_operation("enter_order", method="POST")
-cancel_order = oms.add_operation("cancel_order", method="DELETE")
-
-trader.grant_permission(enter_order)
-trader.grant_permission(cancel_order)
-```
-
-### 3.5 Gamma Mappings
-
-A **GammaMapping** defines inter‑zone role inheritance: a role in one zone can inherit permissions from a role in another zone (usually a parent or related zone). Mappings have a weight (0..1) and a priority.
-
-```python
-from czoi.core import GammaMapping
-
-# A trader in Equities can also trade in ProgramTrading with reduced privileges
-prog = Zone("ProgramTrading", parent=trading)
-gm = GammaMapping(
-    child_zone=equities,
-    child_role=trader,
-    parent_zone=prog,
-    parent_role=trader,
-    weight=0.5,
-    priority=2
-)
-system.add_gamma_mapping(gm)
-```
-
----
-
-## 4. Building a System
-
-The `System` class is a container for all zones, roles, users, applications, operations, and gamma mappings. You typically start by creating a `System` object and then building its contents.
-
-### 4.1 Creating a Zone Hierarchy
-
-```python
-from czoi.core import System, Zone
-
-system = System()
-root = Zone("NHS_Root")
-system.add_zone(root)
-
-regions = ["North", "South", "East", "West"]
-for reg in regions:
-    region = Zone(f"{reg}_Region", parent=root)
-    system.add_zone(region)
-    for i in range(2):
-        hosp = Zone(f"{reg}_Hospital_{i+1}", parent=region)
-        system.add_zone(hosp)
-```
-
-### 4.2 Defining Roles and Permissions
-
-```python
-from czoi.core import Role, Application
-
-# Create an application
-ehr = Application("ElectronicHealthRecord")
-view_patient = ehr.add_operation("view_patient", "GET")
-order_test = ehr.add_operation("order_test", "POST")
-system.add_application(ehr)
-
-# Create roles and grant permissions
-attending = Role("AttendingPhysician", zone=hosp)
-attending.grant_permission(view_patient)
-attending.grant_permission(order_test)
-system.add_role(attending)
-
-nurse = Role("RegisteredNurse", zone=hosp)
-nurse.grant_permission(view_patient)
-system.add_role(nurse)
-```
-
-### 4.3 Adding Users
-
-```python
-alice = User("alice")
-alice.assign_role(hosp, attending, weight=1.0)
-system.add_user(alice)
-```
-
-### 4.4 Setting Up Gamma Mappings
-
-```python
-# A physician in a hospital can also serve in a nearby clinic
-clinic = Zone("Clinic", parent=region)
-gm = GammaMapping(hosp, attending, clinic, attending, weight=0.8, priority=1)
-system.add_gamma_mapping(gm)
-```
-
----
-
-## 5. Constraints
-
-Constraints are rules that govern the system’s behaviour. CZOA defines four types, all represented by the `Constraint` class.
-
-```python
-from czoi.constraint import Constraint, ConstraintType
-```
-
-### 5.1 Identity Constraints
-
-Identity constraints are invariants that must always hold. For example, ensuring that a user in a child zone is also in the parent zone.
-
-```python
-id_con = Constraint(
-    "ZoneContainment",
-    ConstraintType.IDENTITY,
-    {"zones": "all"},
-    "user in parent.users"
-)
-```
-
-### 5.2 Trigger Constraints
-
-Trigger constraints define event‑condition‑action rules. When an event occurs and the condition is true, the associated action is executed.
-
-```python
-trigger = Constraint(
-    "LowStockReorder",
-    ConstraintType.TRIGGER,
-    {"event": "inventory_update"},
-    "quantity < reorder_point and not already_ordered",
-    priority=1
-)
-```
-
-### 5.3 Goal Constraints
-
-Goal constraints represent optimization objectives, such as key performance indicators (KPIs).
-
-```python
-goal = Constraint(
-    "OnTimeShipment",
-    ConstraintType.GOAL,
-    {"metric": "shipment_rate"},
-    "value > 0.98"
-)
-```
-
-### 5.4 Access Constraints
-
-Access constraints are checked during permission decisions. They can enforce separation of duty, time‑based restrictions, etc.
-
-```python
-access = Constraint(
-    "OrderDispenseSoD",
-    ConstraintType.ACCESS,
-    {"roles": ["AttendingPhysician", "Pharmacist"]},
-    "user != last_dispenser"
-)
-```
-
-Constraints are managed by a `ConstraintManager`:
-
-```python
-from czoi.constraint import ConstraintManager
-
-manager = ConstraintManager()
-manager.add(access)
-```
-
-The permission engine uses the constraint manager to evaluate access constraints.
-
----
-
-## 6. Permission Engine
-
-The `PermissionEngine` is responsible for making access decisions. It computes effective permissions for a role in a given zone, taking into account base permissions, intra‑zone inheritance, gamma mappings, and access constraints.
-
-### 6.1 Checking Permissions
-
-```python
-from czoi.permission import SimpleEngine
-
-engine = SimpleEngine(system)   # or use a storage‑backed engine
-
-user = alice
-operation = view_patient
-zone = hosp
-context = {"time": datetime.now(), "user_role": "Attending"}
-
-if engine.decide(user, operation, zone, context):
-    # perform the operation
-    pass
-else:
-    raise PermissionDenied()
-```
-
-### 6.2 Effective Permission Calculation
-
-You can also directly obtain the set of effective permissions for a role:
-
-```python
-perms = engine.get_effective_permissions(attending, hosp)
-for op in perms:
-    print(op.name)
-```
-
-The engine automatically handles:
-
-- Base permissions of the role.
-- Permissions inherited from junior roles (intra‑zone hierarchy).
-- Permissions inherited via gamma mappings (inter‑zone, respecting weights and priorities).
-
----
-
-## 7. Neural Components
-
-Neural components bring learning and adaptation to your system. They implement the `NeuralComponent` abstract base class.
-
-### 7.1 Built‑in Neural Components
-
-The toolkit includes several ready‑to‑use neural components:
-
-- `AnomalyDetector` – uses Isolation Forest to detect unusual access patterns.
-- `RoleMiner` – discovers latent roles via HDBSCAN clustering.
-- `PermissionPredictor` – suggests permissions for new roles using collaborative filtering.
-- `SimilarityEmbedder` – learns embeddings for entities (to be used with the embedding service).
-
-### 7.2 Training a Neural Component
-
-```python
-from czoi.neural import AnomalyDetector
-import numpy as np
-
-# Generate some dummy training data (features extracted from access logs)
-X_train = np.random.randn(1000, 10)
-
-detector = AnomalyDetector(contamination=0.05)
-detector.train(X_train)
-detector.save("anomaly_model.pkl")
-```
-
-Later, load the model and use it:
-
-```python
-detector = AnomalyDetector.load("anomaly_model.pkl")
-score = detector.predict(sample_features)   # returns anomaly score in [0,1]
-```
-
-### 7.3 Using a Neural Component in a Daemon
-
-Neural components are often used inside daemons to make real‑time decisions.
-
-```python
-from czoi.daemon import Daemon
-
-class SecurityDaemon(Daemon):
-    def __init__(self, detector, threshold=0.8, **kwargs):
-        super().__init__("security", **kwargs)
-        self.detector = detector
-        self.threshold = threshold
-
-    async def check(self):
-        # Get recent access logs from storage
-        logs = storage.get_recent_logs(limit=100)
-        actions = []
-        for log in logs:
-            features = extract_features(log)
-            risk = self.detector.predict(features)
-            if risk > self.threshold:
-                actions.append(f"BLOCK:{log.user_id}")
-        return actions
-```
-
----
-
-## 8. Embeddings
-
-Embeddings provide a semantic vector representation of entities (zones, roles, users, applications, operations). They enable similarity searches and can be used by neural components.
-
-### 8.1 Creating Embeddings
-
-The `EmbeddingService` manages vector storage and generation.
-
-```python
-from czoi.embedding import EmbeddingService, InMemoryVectorStore
-
-store = InMemoryVectorStore()
-service = EmbeddingService(store)
-
-# Generate an embedding for a role (using a pre‑trained embedder or fallback)
-vec = service.embed_entity(trader)
-service.update_embedding(trader.id, vec)
-```
-
-You can plug in a neural embedder (e.g., a graph neural network) by passing it to the service.
-
-### 8.2 Similarity Search
-
-Once embeddings are stored, you can find similar entities:
-
-```python
-similar = service.find_similar(trader.id, k=5)
-for entity_id, score in similar:
-    print(f"Similar entity: {entity_id}, similarity: {score}")
-```
-
-This is useful for permission recommendations, anomaly detection, and cross‑zone role matching.
-
----
-
-## 9. Daemons
-
-Daemons are background processes that continuously monitor the system, enforce constraints, and trigger actions. They run as asyncio tasks.
-
-### 9.1 Built‑in Daemons
-
-- `SecurityDaemon` – monitors access logs and blocks suspicious users.
-- `ComplianceDaemon` – checks for regulatory violations (e.g., HIPAA, GDPR).
-- `PerformanceDaemon` – tracks KPIs and suggests goal adjustments.
-- `AnomalyDaemon` – uses an anomaly detector to flag unusual patterns.
-
-### 9.2 Writing a Custom Daemon
-
-Subclass `Daemon` and implement the `check` method. The `check` method should return a list of action strings, which will be passed to `execute`.
-
-```python
-from czoi.daemon import Daemon
-
-class TemperatureDaemon(Daemon):
-    def __init__(self, sensors, threshold=4.0, **kwargs):
-        super().__init__("temperature", **kwargs)
-        self.sensors = sensors
-        self.threshold = threshold
-
-    async def check(self):
-        violations = []
-        for sensor in self.sensors:
-            temp = sensor.read()
-            if temp > self.threshold:
-                violations.append(f"TEMP_VIOLATION:{sensor.zone_id}")
-        return violations
-
-    async def execute(self, action):
-        if action.startswith("TEMP_VIOLATION"):
-            _, zone_id = action.split(":")
-            # Quarantine products in that zone
-            zone = storage.get_zone(zone_id)
-            for product in zone.get_products():
-                product.quarantine()
-            self.logger.warning(f"Quarantined zone {zone_id} due to high temperature")
-```
-
-Start a daemon:
+Let's build a minimal system that tracks temperature in a warehouse.
 
 ```python
 import asyncio
+from czoi import *
 
-daemon = TemperatureDaemon(sensors, interval=5.0)
-asyncio.create_task(daemon.run())
-# later, daemon.stop()
+async def main():
+    # Create toolkit and system
+    toolkit = CZOIToolkit()
+    system = toolkit.create_system("MyFirstSystem")
+    root = system.root_zone
+
+    # Create an atomic zone
+    warehouse = toolkit.create_atomic_zone("Warehouse", parent=root)
+    root.add_child(warehouse)
+
+    # Create a property
+    temp_prop = toolkit.create_property(
+        name="temperature",
+        prop_type=PropertyType.FLOAT,
+        zone_id=warehouse.id,
+        initial_value=20.0
+    )
+    system.add_property(warehouse.id, temp_prop)
+
+    # Create a role and a user
+    viewer = toolkit.create_role("Viewer", zone_id=warehouse.id)
+    system.add_role(viewer)
+    alice = toolkit.create_user("alice", "password")
+    alice.activate_role(viewer.id)
+
+    # Define a simple operation
+    class ReadTemp(Operation):
+        async def execute(self, zone, context):
+            temp = await system.property_store.get(zone, "temperature")
+            return {"temperature": temp}
+
+    read_op = ReadTemp("read_temp", app_id=root.id, signature={})
+    read_op.id = uuid.uuid4()
+    read_op.required_role_ids = {viewer.id}
+
+    # Execute
+    result = await system.execute(["Warehouse"], read_op, alice, {"active_role": viewer})
+    print(result)
+
+asyncio.run(main())
 ```
+
+**Output:** `{'temperature': 20.0}`
 
 ---
 
-## 10. Simulation
+## 4. Core Concepts
 
-The simulation engine lets you test your system under various scenarios before deployment. It drives the system through time, generating random (or scripted) events and logging outcomes.
+Before diving deeper, understand these six pillars:
 
-### 10.1 Running a Simulation
+| Concept | Purpose | Represented by |
+|---------|---------|----------------|
+| **Zone** | Hierarchical container (recursive) | `AtomicZone`, `CompositeZone` |
+| **Property** | Typed state variable | `Property` class |
+| **Role** | Set of permissions | `Role` dataclass |
+| **Operation** | Executable action | Subclass of `Operation` |
+| **Constraint** | Rule that must hold | `IdentityConstraint`, `TriggerConstraint`, etc. |
+| **Daemon** | Continuous monitor | Subclass of `Daemon` |
+| **Neural Component** | Learnable function | Subclass of `NeuralComponent` |
 
-Create a subclass of `SimulationEngine` and implement the `step` method. The `step` method is called at each time interval.
+The **CZOASystem** container holds all these pieces together.
+
+---
+
+## 5. Working with Zones
+
+Zones form a tree. You can have **atomic** zones (leaves) and **composite** zones (can embed another CZOA system).
+
+### 5.1 Creating Zones
 
 ```python
-from czoi.simulation import SimulationEngine
-import random
-from datetime import timedelta
+toolkit = CZOIToolkit()
+system = toolkit.create_system("Org")
+root = system.root_zone
 
-class TradingSim(SimulationEngine):
-    def step(self, current_time):
-        # Generate random access attempts
-        for _ in range(random.randint(1, 5)):
-            user = random.choice(self.users)
-            op = random.choice(self.operations)
-            zone = random.choice(list(self.system.zones))
-            context = {"time": current_time, "market_open": True}
-            allowed = self.permission_engine.decide(user, op, zone, context)
-            self.logs.append({
-                "timestamp": current_time.isoformat(),
-                "user": user.username,
-                "operation": op.name,
-                "zone": zone.name,
-                "allowed": allowed
-            })
+# Atomic zone
+dept = toolkit.create_atomic_zone("HR", parent=root)
 
-sim = TradingSim(system, permission_engine)
-sim.run(duration=timedelta(minutes=10), step=timedelta(seconds=1))
+# Composite zone (can have embedded system)
+region = toolkit.create_composite_zone("NorthRegion", parent=root)
+
+root.add_child(dept)
+root.add_child(region)
 ```
 
-### 10.2 Analyzing Simulation Results
-
-After the simulation, use the `analyze` method to get summary statistics:
+### 5.2 Navigating Zones
 
 ```python
-results = sim.analyze()
-print(results)
-# {'total_requests': 345, 'allowed': 332, 'denied': 13, 'allow_rate': 0.9623}
+# Get zone by path from root
+zone = system.root_zone.get_child("NorthRegion")
 ```
 
-You can also export logs to a file for deeper analysis:
+### 5.3 Recursive Zones (Composite)
+
+A composite zone can embed a full system:
 
 ```python
-sim.save_logs("trading_sim.json")
+sub_system = toolkit.create_system("Embedded")
+region.embed_system(sub_system)
 ```
 
----
+Now all zones inside `sub_system` become children of `region`.
 
-## 11. Web Framework Integrations
+### 5.4 Aggregation Rules (Composite Zones)
 
-CZOI provides decorators and middleware for popular web frameworks, so you can easily enforce permissions in your web applications.
-
-### 11.1 Django
-
-Add the middleware to `settings.py`:
+Composite zones can aggregate properties from children:
 
 ```python
-MIDDLEWARE = [
-    'czoi.integrations.django.middleware.CZOAMiddleware',
-]
+region.add_aggregation_rule("total_inventory", "sum")
+region.add_aggregation_rule("avg_temperature", "avg")
 ```
 
-Then use the `require_permission` decorator:
+The toolkit automatically recomputes these when child properties change.
+
+---
+
+## 6. Managing Properties
+
+Properties are the state variables of zones. They are typed, versioned, and support access control.
+
+### 6.1 Creating a Property
 
 ```python
-from czoi.integrations.django.decorators import require_permission
-
-@require_permission('view_dashboard', mode='i_rzbac')
-def dashboard(request):
-    return render(request, 'dashboard.html')
+prop = toolkit.create_property(
+    name="patient_count",
+    prop_type=PropertyType.INT,
+    zone_id=zone.id,
+    initial_value=0,
+    read_roles={nurse_role.id},      # who can read
+    write_roles={charge_nurse.id}    # who can write
+)
+system.add_property(zone.id, prop)
 ```
 
-### 11.2 Flask
+### 6.2 Reading and Writing Properties
+
+Use the `property_store` from the system:
 
 ```python
-from flask import Flask
-from czoi.integrations.flask import login_required, permission_required
+# Read current
+value = await system.property_store.get(zone, "patient_count")
 
-app = Flask(__name__)
-
-@app.route('/admin')
-@login_required
-@permission_required('admin_access', mode='n_rzbac')
-def admin():
-    return "Admin panel"
+# Write (requires permission)
+success = await system.property_store.set(
+    zone, "patient_count", new_value,
+    user, role, operation
+)
 ```
 
-### 11.3 FastAPI
+### 6.3 Subscribing to Changes
 
 ```python
-from fastapi import FastAPI, Depends
-from czoi.integrations.fastapi import get_current_user, require_permission
+async def on_temp_change(zone, prop, old, new):
+    print(f"Temperature changed from {old} to {new}")
 
-app = FastAPI()
-
-@app.get("/secure")
-def secure_endpoint(user = Depends(get_current_user),
-                    _ = Depends(require_permission("read:secure"))):
-    return {"message": "ok"}
+await system.property_store.subscribe(zone, "temperature", on_temp_change)
 ```
 
----
-
-## 12. Command‑Line Interface
-
-The CZOI toolkit includes a CLI for common administrative tasks. After installation, the `czoa` command is available.
-
-```bash
-# Initialize a system from a YAML config
-czoi init --config system.yaml
-
-# Check a permission
-czoa check --user alice --operation view_patient --zone hosp
-
-# Run a simulation
-czoi simulate --duration 1h --output results.json
-
-# View audit logs
-czoi audit --since 2026-03-01
-
-# Migrate the system (add a zone)
-czoi migrate add-zone --name "NewClinic" --parent "North_Region"
-
-# Train a neural component
-czoi train --model anomaly --data access_logs.csv --output model.pkl
-
-# Start a daemon
-czoi daemon start security --threshold 0.9
-```
-
-The configuration file (`system.yaml`) can define zones, roles, users, and gamma mappings in a human‑readable format.
-
----
-
-## 13. Persistence
-
-CZOI supports persistent storage via SQLAlchemy. You can use SQLite for development and PostgreSQL for production.
+### 6.4 Historical Queries
 
 ```python
-from czoi.storage import SQLAlchemyStorage
-
-storage = SQLAlchemyStorage("sqlite:///my_system.db")
-storage.save(system)   # persists all zones, roles, etc.
+# Get value as of 5 minutes ago
+from datetime import datetime, timedelta
+old_value = await system.property_store.get(
+    zone, "temperature",
+    timestamp=datetime.now() - timedelta(minutes=5)
+)
 ```
 
-For vector embeddings, you can use `pgvector` (PostgreSQL) or an in‑memory store.
-
-The storage layer also provides methods to retrieve gamma mappings, constraints, audit logs, etc.
-
 ---
 
-## 14. Examples
+## 7. Roles, Users, and Permissions
 
-The toolkit comes with five complete examples corresponding to the case studies in the CZOA paper. They are located in the `examples/` directory of the repository.
+### 7.1 Defining Roles
 
-### 14.1 Healthcare System
-
-- File: `examples/healthcare.py`
-- Demonstrates a three‑level zone hierarchy (National → Regions → Hospitals).
-- Uses gamma mappings for cross‑site privileges.
-- Includes an anomaly detector for insider threat detection.
-- Simulations: normal operations, flu surge, breach detection.
-
-### 14.2 Financial Trading Desk
-
-- File: `examples/trading.py`
-- Models trading desks, risk, and compliance zones.
-- Integrates a market impact predictor neural component.
-- Simulations: normal trading, market crash, insider trading.
-
-### 14.3 Traffic Management
-
-- File: `examples/traffic.py`
-- Zones for control center, signals, sensors, VMS, incidents.
-- Uses a graph neural network for road network embeddings.
-- Simulations: normal traffic, accident, signal failure.
-
-### 14.4 University Management
-
-- File: `examples/university.py`
-- Colleges, departments, research labs, advising.
-- FERPA identity constraints.
-- Student success predictor neural component.
-- Simulations: registration, grading, probation monitoring.
-
-### 14.5 Distribution Center
-
-- File: `examples/distribution.py`
-- Receiving, storage, picking, packing, shipping, returns.
-- SKU embeddings for slotting optimization.
-- Temperature daemon for cold chain.
-- Simulations: normal fulfillment, peak season, inventory discrepancy.
-
-Run any example with:
-
-```bash
-python examples/healthcare.py
+```python
+role = toolkit.create_role(
+    name="Manager",
+    zone_id=zone.id,
+    base_permissions={op1.id, op2.id}
+)
 ```
 
-Each example includes a main block that runs the three simulations and prints summary statistics.
+**Seniority (intra‑zone inheritance):**
+
+```python
+senior_role.seniority_parents.append(junior_role)
+```
+
+**Inter‑zone mappings (γ):**
+
+```python
+role.inter_zone_mappings.append(
+    (target_zone_id, target_role_id, weight=0.8, priority=1)
+)
+```
+
+### 7.2 Creating Users and Activating Roles
+
+```python
+user = toolkit.create_user("bob", "hashed_pw", attributes={"dept": "sales"})
+user.activate_role(manager_role.id, level=1.0)
+```
+
+### 7.3 Recursive Permission Policies
+
+Set policy per zone:
+
+```python
+system.permission_engine.set_propagation_policy(
+    zone.id, PropagationPolicy.STRICT   # or REQUEST, CAPABILITY
+)
+```
+
+- **STRICT**: child inherits all parent permissions automatically.
+- **REQUEST**: child must ask, conditionally granted.
+- **CAPABILITY**: no automatic inheritance.
 
 ---
 
-## 15. API Reference
+## 8. Defining Operations
 
-For detailed documentation of all classes and methods, please refer to the [API Reference](https://czoi.readthedocs.io/) (under construction). Key modules:
+Operations are the actions users can perform. Subclass `Operation` and implement `execute`.
 
-- `czoi.core`: Zone, Role, User, Application, Operation, GammaMapping, System
-- `czoi.permission`: PermissionEngine, SimpleEngine
-- `czoi.constraint`: Constraint, ConstraintType, ConstraintManager
-- `czoi.neural`: NeuralComponent, AnomalyDetector, RoleMiner, PermissionPredictor, SimilarityEmbedder
-- `czoi.embedding`: EmbeddingService, VectorStore, InMemoryVectorStore
-- `czoi.daemon`: Daemon, SecurityDaemon, ComplianceDaemon, PerformanceDaemon, AnomalyDaemon
-- `czoi.simulation`: SimulationEngine
-- `czoi.storage`: Storage, SQLAlchemyStorage
-- `czoi.integrations`: django, flask, fastapi
-- `czoi.cli`: main CLI entry point
+### 8.1 Basic Operation
+
+```python
+class ShipOrder(Operation):
+    async def execute(self, zone, context):
+        order_id = context["order_id"]
+        # Business logic
+        await system.property_store.set(zone, f"order_{order_id}_status", "shipped",
+                                        context['user'], context['active_role'], self)
+        return {"status": "shipped", "order": order_id}
+```
+
+### 8.2 Registering an Operation
+
+```python
+ship_op = ShipOrder("ship_order", app_id=app.id, signature={})
+ship_op.id = uuid.uuid4()
+ship_op.required_role_ids = {logistics_role.id}
+# No need to "register" – just pass to execute
+```
+
+### 8.3 Preconditions and Postconditions
+
+```python
+def check_stock(state):
+    return state.get("stock") >= 5
+
+ship_op.precondition = check_stock
+```
+
+### 8.4 Executing an Operation
+
+```python
+result = await system.execute(
+    zone_path=["Warehouse", "Shipping"],
+    operation=ship_op,
+    user=alice,
+    context={"active_role": logistics_role, "order_id": "ORD-123"}
+)
+```
 
 ---
 
-## 16. Contributing
+## 9. Using Constraints
 
-We welcome contributions! Please see the [CONTRIBUTING.md](https://github.com/hongxueharriswang/czoi_toolkit/blob/main/CONTRIBUTING.md) file for guidelines. The project uses `pytest` for testing, `black` for code formatting, and `mypy` for type checking.
+Constraints are declarative rules evaluated automatically by the `ConstraintEngine`.
+
+### 9.1 Identity Constraint (Invariant)
+
+```python
+def stock_non_negative(state):
+    return state.get("stock", 0) >= 0
+
+identity = IdentityConstraint("stock_ge_zero", stock_non_negative)
+system.constraint_engine.add_identity(identity)
+```
+
+If violated, the system raises `ConstraintViolationError`.
+
+### 9.2 Trigger Constraint
+
+```python
+async def send_low_stock_alert(state):
+    print("Low stock alert!")
+
+trigger = TriggerConstraint(
+    name="low_stock_trigger",
+    event="property_change",
+    condition=lambda s: s.get("stock", 0) < 10,
+    action=send_low_stock_alert
+)
+system.constraint_engine.add_trigger(trigger)
+```
+
+### 9.3 Access Constraint
+
+```python
+def only_weekday_access(user, role, zone, operation, props, context):
+    # Allow only Monday–Friday
+    return datetime.now().weekday() < 5
+
+access_constraint = AccessConstraint("weekday_only", only_weekday_access)
+system.constraint_engine.add_access(access_constraint)
+```
+
+### 9.4 Goal Constraint
+
+```python
+def profit_utility(state):
+    return state.get("revenue", 0) - state.get("cost", 0)
+
+goal = GoalConstraint("profit_max", profit_utility)
+system.constraint_engine.add_goal(goal)
+
+# Later evaluate total utility
+total = await system.constraint_engine.evaluate_goals(current_state)
+```
 
 ---
 
-## 17. License
+## 10. Adding Neural Components
 
-CZOI is released under the MIT License. See the [LICENSE](https://github.com/hongxueharriswang/czoi_toolkit/blob/main/LICENSE) file for details.
+The toolkit provides base classes for predictors and detectors.
+
+### 10.1 Using Built‑in Property Predictor
+
+```python
+predictor = PropertyPredictor("demand_forecaster", zone_id=zone.id)
+system.add_neural_component(predictor)
+
+# Predict next value from history
+history = [100, 105, 110, 108]   # last 4 demand values
+forecast = await predictor.forward({"history": history})
+```
+
+### 10.2 Using Anomaly Detector
+
+```python
+detector = AnomalyDetector("sensor_anomaly", zone_id=zone.id, threshold=0.8)
+score = await detector.forward({"features": [0.5, 0.6, 0.55]})
+if score > 0.8:
+    print("Anomaly detected!")
+```
+
+### 10.3 Creating a Custom Neural Component
+
+```python
+class MyPredictor(NeuralComponent):
+    async def forward(self, inputs):
+        # Your inference logic
+        return inputs["x"] * 2
+
+    async def train(self, dataset):
+        # Your training logic
+        pass
+```
 
 ---
 
-*Happy building!*  
-— The CZOI Team
+## 11. Writing Daemons
+
+Daemons run continuously and can **block**, **alert**, or **adapt**.
+
+### 11.1 Simple Daemon
+
+```python
+class TemperatureSafetyDaemon(Daemon):
+    async def monitor(self, zone, operation, props, context):
+        temp = props.get("temperature", 0)
+        if temp > 40:
+            return DaemonAction.BLOCK
+        return DaemonAction.ALLOW
+
+    async def act(self, action, zone, props, context):
+        print("High temperature! Blocking operation.")
+        # Could also send alert, shut down equipment, etc.
+```
+
+### 11.2 Registering Daemons
+
+```python
+daemon = TemperatureSafetyDaemon("temp_safety", priority=100)
+system.daemon_manager.register(daemon)
+```
+
+### 11.3 Daemon Priority and Conflict Resolution
+
+When multiple daemons return different actions, the highest priority (largest number) wins. If two have same priority, the action order is: **BLOCK > CHALLENGE > ADAPT > ALERT > ALLOW**.
+
+---
+
+## 12. Embedding Service
+
+The embedding service maps any entity (zone, role, user, property, operation) to a vector for similarity computation.
+
+### 12.1 Setting and Getting Embeddings
+
+```python
+emb = EmbeddingService(dimension=64)
+vec = np.random.randn(64)
+emb.set_embedding("zone", zone.id, vec)
+retrieved = emb.get_embedding("zone", zone.id)
+```
+
+### 12.2 Compositional Zone Embedding
+
+For composite zones, the embedding is automatically computed from children:
+
+```python
+zone_vec = emb.compute_zone_embedding(composite_zone)
+```
+
+### 12.3 Similarity Search
+
+```python
+sim = emb.similarity(("role", role1.id), ("role", role2.id))
+```
+
+---
+
+## 13. Putting It All Together
+
+Here is a complete example of a **smart warehouse** with inventory tracking, a neural demand forecaster, and a daemon that blocks orders when stock is low.
+
+```python
+import asyncio
+import uuid
+from czoi import *
+
+class DemandPredictor(NeuralComponent):
+    async def forward(self, inputs):
+        # Simplified: assume linear trend
+        hist = inputs.get("history", [0])
+        return hist[-1] * 1.05   # 5% growth
+
+    async def train(self, dataset):
+        pass
+
+class ReorderOperation(Operation):
+    async def execute(self, zone, context):
+        sku = context["sku"]
+        qty = context["quantity"]
+        current = await system.property_store.get(zone, f"stock_{sku}")
+        new = current + qty
+        await system.property_store.set(zone, f"stock_{sku}", new,
+                                        context['user'], context['active_role'], self)
+        return {"sku": sku, "old": current, "new": new}
+
+class LowStockDaemon(Daemon):
+    def __init__(self, threshold=10):
+        super().__init__("low_stock", priority=90)
+        self.threshold = threshold
+
+    async def monitor(self, zone, operation, props, context):
+        if operation and operation.name == "reorder":
+            sku = context.get("sku")
+            stock = props.get(f"stock_{sku}", 0)
+            if stock < self.threshold:
+                return DaemonAction.BLOCK
+        return DaemonAction.ALLOW
+
+    async def act(self, action, zone, props, context):
+        print(f"LowStockDaemon: Blocked reorder because stock < {self.threshold}")
+
+async def main():
+    global system
+    toolkit = CZOIToolkit()
+    system = toolkit.create_system("SmartWarehouse")
+    root = system.root_zone
+
+    # Zone
+    wh = toolkit.create_atomic_zone("MainWarehouse", parent=root)
+    root.add_child(wh)
+
+    # Property: stock for SKU "A"
+    stock_prop = toolkit.create_property("stock_A", PropertyType.INT, wh.id, initial_value=5)
+    system.add_property(wh.id, stock_prop)
+
+    # Role & user
+    clerk = toolkit.create_role("clerk", zone_id=wh.id)
+    system.add_role(clerk)
+    alice = toolkit.create_user("alice", "pass")
+    alice.activate_role(clerk.id)
+
+    # Operation
+    reorder = ReorderOperation("reorder", app_id=root.id, signature={})
+    reorder.id = uuid.uuid4()
+    reorder.required_role_ids = {clerk.id}
+
+    # Neural component
+    predictor = DemandPredictor("demand", zone_id=wh.id)
+    system.add_neural_component(predictor)
+
+    # Daemon
+    low_stock_daemon = LowStockDaemon(threshold=10)
+    system.daemon_manager.register(low_stock_daemon)
+
+    # Execute: current stock=5, try to reorder 2 units -> daemon blocks
+    ctx = {"active_role": clerk, "user": alice, "sku": "A", "quantity": 2}
+    try:
+        result = await system.execute(["MainWarehouse"], reorder, alice, ctx)
+        print(result)
+    except DaemonBlockError:
+        print("Order blocked – stock below threshold")
+
+    # Use predictor to forecast demand
+    history = [5, 4, 3]   # last three stock levels
+    forecast = await predictor.forward({"history": history})
+    print(f"Forecasted next stock level: {forecast:.1f}")
+
+asyncio.run(main())
+```
+
+**Output:**
+```
+LowStockDaemon: Blocked reorder because stock < 10
+Order blocked – stock below threshold
+Forecasted next stock level: 3.2
+```
+
+---
+
+## 14. Testing and Debugging
+
+### 14.1 Unit Testing with Pytest
+
+```python
+import pytest
+from czoi import CZOIToolkit
+
+@pytest.mark.asyncio
+async def test_property_set():
+    toolkit = CZOIToolkit()
+    system = toolkit.create_system("Test")
+    zone = toolkit.create_atomic_zone("Z", parent=system.root_zone)
+    system.root_zone.add_child(zone)
+    prop = toolkit.create_property("p", PropertyType.INT, zone.id, 0)
+    system.add_property(zone.id, prop)
+    await system.property_store.set(zone, "p", 42, None, None, None)
+    assert await system.property_store.get(zone, "p") == 42
+```
+
+### 14.2 Enabling Debug Logging
+
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+```
+
+### 14.3 Inspecting Effective Permissions
+
+```python
+perms = await system.permission_engine.effective_permissions(role, zone, props)
+print([op_id for op_id in perms])
+```
+
+### 14.4 Manual Cache Invalidation
+
+```python
+system.permission_engine.invalidate_cache(role.id, zone.id)
+```
+
+---
+
+## 15. Deployment
+
+### 15.1 Running as a Service
+
+Wrap your system in a long‑running asyncio loop:
+
+```python
+async def run_server():
+    system = build_my_system()
+    # Start daemons (they run automatically when check() is called)
+    while True:
+        await asyncio.sleep(1)
+```
+
+### 15.2 Docker Deployment
+
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install czoi-toolkit
+COPY . .
+CMD ["python", "main.py"]
+```
+
+### 15.3 Scaling the Property Store
+
+For production, replace `PropertyStore` with a distributed version (Redis, PostgreSQL). Subclass and override `get`/`set`.
+
+---
+
+## 16. Best Practices
+
+| Practice | Rationale |
+|----------|-----------|
+| Keep zone depth ≤ 5 | Performance of recursive permission checks. |
+| Use `PropagationPolicy.REQUEST` across trust boundaries | Prevents accidental privilege escalation. |
+| Always set `required_role_ids` for operations | Otherwise any active role can execute. |
+| Prefer identity constraints over manual checks | Declarative, automatically enforced. |
+| Use daemons for real‑time monitoring, not for business logic | Daemons should be lightweight. |
+| Cache embeddings if recomputation is expensive | Use `EmbeddingService` with weakref cache. |
+| Test daemons in isolation with mocks | Daemons interact; mock other daemons. |
+
+---
+
+## 17. Troubleshooting
+
+| Problem | Likely Cause | Solution |
+|---------|--------------|----------|
+| `PermissionDeniedError` | Role not activated or missing permission | Check `user.active_roles` and `role.base_permissions`. |
+| `ZoneNotFoundError` | Path typo or zone not added | Verify zone tree with `root.children`. |
+| Daemon not blocking | Priority too low or condition wrong | Log inside `monitor` to debug. |
+| Property not updating | Missing `write` permission | Check `property.access_control['write']`. |
+| Recursion depth error | Zone nesting > Python recursion limit | Increase limit or restructure tree. |
+
+---
+
+## 18. API Quick Reference
+
+| Module | Main Classes | Key Methods |
+|--------|--------------|--------------|
+| `czoi.zones` | `Zone`, `AtomicZone`, `CompositeZone` | `add_child`, `execute` |
+| `czoi.properties` | `Property`, `PropertyStore` | `get`, `set`, `subscribe` |
+| `czoi.roles` | `Role`, `User` | `activate_role`, `deactivate_role` |
+| `czoi.constraints` | `IdentityConstraint`, `TriggerConstraint`, etc. | `add_identity`, `check_access` |
+| `czoi.neural` | `NeuralComponent`, `PropertyPredictor`, `AnomalyDetector` | `forward`, `train` |
+| `czoi.daemons` | `Daemon`, `DaemonManager` | `register`, `check` |
+| `czoi.permissions` | `PermissionEngine` | `effective_permissions`, `check_access` |
+| `czoi.embedding` | `EmbeddingService` | `get_embedding`, `compute_zone_embedding`, `similarity` |
+| `czoi.toolkit` | `CZOASystem`, `CZOIToolkit` | `execute`, `create_property`, `create_role` |
+
+For complete API documentation, see [https://czoi.readthedocs.io](https://czoi.readthedocs.io).
+
+---
+
+## Next Steps
+
+- Explore the `examples/` directory in the GitHub repository.
+- Read the full research paper: [CZOA: A Unified Formalism...](https://arxiv.org/abs/xxxx)
+- Join the community: GitHub Discussions or Gitter.
+
+Happy building with CZOI Toolkit!

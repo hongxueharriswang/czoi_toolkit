@@ -7,7 +7,7 @@ import datetime
 import numpy as np
 from uuid import uuid4
 from czoi.core import Zone, Role, User, Application, Operation, System, GammaMapping
-from czoi.permission import SimpleEngine
+from czoi.permission.engine import SimpleEngine
 from czoi.constraint import Constraint, ConstraintType, ConstraintManager
 from czoi.neural import AnomalyDetector
 from czoi.daemon import SecurityDaemon, ComplianceDaemon

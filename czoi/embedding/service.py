@@ -1,36 +1,63 @@
-
-from typing import Any, List, Tuple, Optional
+# czoi/embedding/service.py
+import weakref
+from typing import Dict, Tuple, Optional
+from uuid import UUID
 import numpy as np
-from .vector_store import VectorStore
-from ..neural.base import NeuralComponent
+from czoi.zones.base import Zone
 
 class EmbeddingService:
-    def __init__(self, vector_store: VectorStore, embedder: Optional[NeuralComponent] = None):
-        self.vector_store = vector_store
-        self.embedder = embedder
+    """
+    Semantic embedding service for all CZOA entities.
+    """
+    def __init__(self, dimension: int = 128):
+        self.dimension = dimension
+        self._embeddings: Dict[Tuple[str, UUID], np.ndarray] = {}
+        self._zone_cache = weakref.WeakKeyDictionary()
 
-    def embed_entity(self, entity: Any) -> np.ndarray:
-        """Generate embedding for a single entity."""
-        if self.embedder:
-            return self.embedder.predict(entity)
+    def set_embedding(self, entity_type: str, entity_id: UUID, vector: np.ndarray) -> None:
+        if len(vector) != self.dimension:
+            raise ValueError(f"Vector dimension must be {self.dimension}")
+        self._embeddings[(entity_type, entity_id)] = vector.copy()
+
+    def get_embedding(self, entity_type: str, entity_id: UUID) -> Optional[np.ndarray]:
+        key = (entity_type, entity_id)
+        if key in self._embeddings:
+            return self._embeddings[key]
+        # Generate random default embedding
+        vec = np.random.randn(self.dimension) * 0.1
+        self._embeddings[key] = vec
+        return vec
+
+    def compute_zone_embedding(self, zone: 'Zone') -> np.ndarray:
+        if zone in self._zone_cache:
+            return self._zone_cache[zone]
+
+        if not zone.is_composite:
+            vec = self.get_embedding('zone', zone.id)
         else:
-            # Fallback: use entity's string representation
-            return self._fallback_embed(str(entity))
+            child_embeddings = [self.compute_zone_embedding(child) for child in zone.children]
+            if child_embeddings:
+                combined = np.mean(child_embeddings, axis=0)
+            else:
+                combined = np.zeros(self.dimension)
+            # Include property embeddings
+            prop_vecs = []
+            for prop in zone.properties.values():
+                pv = self.get_embedding('property', prop.id)
+                prop_vecs.append(pv)
+            if prop_vecs:
+                prop_combined = np.mean(prop_vecs, axis=0)
+                combined = 0.7 * combined + 0.3 * prop_combined
+            vec = combined
 
-    def _fallback_embed(self, text: str) -> np.ndarray:
-        """Simple deterministic hash-based embedding (for testing)."""
-        import hashlib
-        hash_obj = hashlib.sha256(text.encode())
-        # Convert hash to 256-dim vector of floats in [-1,1]
-        vec = np.frombuffer(hash_obj.digest(), dtype=np.uint8) / 127.5 - 1.0
-        return vec.astype(np.float32)
+        self._zone_cache[zone] = vec
+        return vec
 
-    def update_embedding(self, entity_id: str, entity: Any):
-        vec = self.embed_entity(entity)
-        self.vector_store.upsert(entity_id, vec)
-
-    def find_similar(self, entity_id: str, k: int = 10) -> List[Tuple[str, float]]:
-        vec = self.vector_store.get(entity_id)
-        if vec is None:
-            return []
-        return self.vector_store.similarity_search(vec, k)
+    def similarity(self, entity1: Tuple[str, UUID], entity2: Tuple[str, UUID]) -> float:
+        v1 = self.get_embedding(entity1[0], entity1[1])
+        v2 = self.get_embedding(entity2[0], entity2[1])
+        norm1 = np.linalg.norm(v1)
+        norm2 = np.linalg.norm(v2)
+        if norm1 == 0 or norm2 == 0:
+            return 0.0
+        return float(np.dot(v1, v2) / (norm1 * norm2))

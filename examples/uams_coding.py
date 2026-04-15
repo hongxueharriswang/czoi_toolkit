@@ -6,7 +6,7 @@ import random
 import datetime
 import numpy as np
 from czoi.core import Zone, Role, User, Application, System, GammaMapping
-from czoi.permission import SimpleEngine
+from czoi.permission.engine import SimpleEngine
 from czoi.constraint import Constraint, ConstraintType, ConstraintManager
 from czoi.neural import AnomalyDetector
 from czoi.daemon import SecurityDaemon
